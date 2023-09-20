@@ -66,11 +66,8 @@ public class CategoriaController {
     @PutMapping
     @Transactional
     public ResponseEntity<Categoria> atualizar(@RequestBody @Valid Categoria categoria){
-        Optional<Categoria> local = repository.findById(categoria.getId());
-        if (!local.isPresent())
-            return ResponseEntity.badRequest().build();
-        
-        Categoria categoriaLocal = local.get();
+        Categoria categoriaLocal = repository.findById(categoria.getId()).get();
+ 
         categoriaLocal.setNome(categoria.getNome());
 
         return ResponseEntity.ok(categoriaLocal);
