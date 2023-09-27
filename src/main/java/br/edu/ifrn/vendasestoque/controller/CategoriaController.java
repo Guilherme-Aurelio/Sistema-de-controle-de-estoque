@@ -44,7 +44,7 @@ public class CategoriaController {
 
     @GetMapping("/{id}")
     public ResponseEntity detalhar(@PathVariable Long id){
-        var categoria = repository.findById(id);
+        var categoria = repository.getReferenceById(id);
         return ResponseEntity.ok(categoria);
     }
 
