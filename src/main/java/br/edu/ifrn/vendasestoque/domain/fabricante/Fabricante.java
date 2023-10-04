@@ -25,6 +25,6 @@ public class Fabricante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     //No caso de PostgreSQL, seria GenerationType.SEQUENCE
     private Long id;
-    @NotBlank
+    @NotBlank(message = "Nome do fabricante é obrigatório")
     private String nome;
 }
