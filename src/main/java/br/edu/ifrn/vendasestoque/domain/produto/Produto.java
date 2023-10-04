@@ -48,8 +48,11 @@ public class Produto {
     @JoinColumn(name = "fabricante_id")
     private Fabricante fabricante;
 
+    private boolean ativo;
+
     public Produto(@Valid ProdutoRequestDTO produtoDTO) {
       this.nome = produtoDTO.nome();
+      this.descricao = produtoDTO.descricao();
       this.quantidadeEstoque = produtoDTO.quantidadeEstoque();
       this.preco = produtoDTO.preco();
       this.categoria = produtoDTO.categoria();
