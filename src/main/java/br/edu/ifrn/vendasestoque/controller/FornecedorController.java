@@ -16,61 +16,58 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.edu.ifrn.vendasestoque.domain.fabricante.Fabricante;
-import br.edu.ifrn.vendasestoque.repository.FabricanteRepository;
-import jakarta.persistence.EntityNotFoundException;
+import br.edu.ifrn.vendasestoque.domain.fornecedor.Fornecedor;
+import br.edu.ifrn.vendasestoque.repository.FornecedorRepository;
 import jakarta.validation.Valid;
-import lombok.extern.log4j.Log4j2;
 
 @RestController
-@RequestMapping("fabricantes")
-@Log4j2
-public class FabricanteController {
-    
+@RequestMapping("fornecedores")
+public class FornecedorController {
+
     @Autowired
-    private FabricanteRepository repository;
+    private FornecedorRepository repository;
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid Fabricante fabricante, 
+    public ResponseEntity cadastrar(@RequestBody @Valid Fornecedor fornecedor, 
                                             UriComponentsBuilder uriBuilder){
-        Fabricante fabricanteLocal = repository.save(fabricante);
-        var uri = uriBuilder.path("/fabricantes/{id}").
-                  buildAndExpand(fabricanteLocal.getId()).toUri();
+        Fornecedor fornecedorLocal = repository.save(fornecedor);
+        var uri = uriBuilder.path("/fornecedor/{id}").
+                  buildAndExpand(fornecedorLocal.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Fabricante> detalhar(@PathVariable Long id){
-        Fabricante fabricante = repository.getReferenceById(id);            
-        return ResponseEntity.ok(fabricante);
+    public ResponseEntity<Fornecedor> detalhar(@PathVariable Long id){
+        Fornecedor fornecedor = repository.getReferenceById(id);            
+        return ResponseEntity.ok(fornecedor);
     }
 
     @GetMapping
-    public ResponseEntity<Page<Fabricante>> listar(@PageableDefault(size=30, 
+    public ResponseEntity<Page<Fornecedor>> listar(@PageableDefault(size=30, 
                                         sort = {"nome"}) Pageable paginacao){
-        var fabricantes = repository.findAll(paginacao);
-        return ResponseEntity.ok(fabricantes);
+        var fornecedores = repository.findAll(paginacao);
+        return ResponseEntity.ok(fornecedores);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity excluir(@PathVariable Long id){
-        var fabricante = repository.getReferenceById(id);
-        repository.delete(fabricante);
+        var fornecedor = repository.getReferenceById(id);
+        repository.delete(fornecedor);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping
     @Transactional
-    public ResponseEntity<Fabricante> atualizar(@RequestBody @Valid 
-    Fabricante fabricante){
-        Fabricante fabricanteLocal = repository.findById(
-            fabricante.getId()).get();
+    public ResponseEntity<Fornecedor> atualizar(@RequestBody @Valid 
+    Fornecedor fornecedor){
+        Fornecedor fornecedorLocal = repository.findById(
+            fornecedor.getId()).get();
  
-        fabricanteLocal.setNome(fabricante.getNome());
+        fornecedorLocal.setNome(fornecedor.getNome());
 
-        return ResponseEntity.ok(fabricanteLocal);
+        return ResponseEntity.ok(fornecedorLocal);
     }
-
+    
 }
