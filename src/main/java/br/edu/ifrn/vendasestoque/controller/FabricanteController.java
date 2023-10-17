@@ -19,7 +19,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.edu.ifrn.vendasestoque.domain.fabricante.Fabricante;
 import br.edu.ifrn.vendasestoque.repository.FabricanteRepository;
 import jakarta.validation.Valid;
-import lombok.extern.log4j.Log4j2;
 
 @RestController
 @RequestMapping("fabricantes")

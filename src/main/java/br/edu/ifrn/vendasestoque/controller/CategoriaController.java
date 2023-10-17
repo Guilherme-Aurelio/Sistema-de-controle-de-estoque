@@ -19,7 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.edu.ifrn.vendasestoque.domain.categoria.Categoria;
 import br.edu.ifrn.vendasestoque.repository.CategoriaRepository;
 import jakarta.validation.Valid;
-import lombok.extern.log4j.Log4j2;
+
 
 @RestController
 @RequestMapping("categorias")
