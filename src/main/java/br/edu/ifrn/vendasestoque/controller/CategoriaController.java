@@ -30,7 +30,7 @@ public class CategoriaController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid Categoria categoria,
+    public ResponseEntity<Object> cadastrar(@RequestBody @Valid Categoria categoria,
             UriComponentsBuilder uriBuilder) {
         Categoria categoriaLocal = repository.save(categoria);
         var uri = uriBuilder.path("/categorias/{id}").buildAndExpand(categoriaLocal.getId()).toUri();
@@ -51,7 +51,7 @@ public class CategoriaController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity excluir(@PathVariable Long id) {
+    public ResponseEntity<Object> excluir(@PathVariable Long id) {
         var categoria = repository.getReferenceById(id);
         repository.delete(categoria);
         return ResponseEntity.noContent().build();

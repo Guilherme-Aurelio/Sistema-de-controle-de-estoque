@@ -1,11 +1,8 @@
-package br.edu.ifrn.vendasestoque.domain.entradaproduto;
+package br.edu.ifrn.vendasestoque.domain.movimentacaoestoque;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
-import br.edu.ifrn.vendasestoque.domain.fornecedor.Fornecedor;
+import br.edu.ifrn.vendasestoque.domain.entradaproduto.EntradaProduto;
 import br.edu.ifrn.vendasestoque.domain.produto.Produto;
-import jakarta.persistence.Column;
+import br.edu.ifrn.vendasestoque.domain.venda.Venda;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,31 +17,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "entrada_produto")
-@Table(name = "entrada_produto")
-@NoArgsConstructor
+@Entity(name = "movimentacao_estoque") // JPQL
+@Table(name = "movimentacao_estoque") // SQL
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
-public class EntradaProduto {
+public class MovimentacaoEstoque {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   @NotNull
   private int quantidade;
-  @Column(name = "data_hora")
-  private LocalDateTime dataHora;
-  @NotNull
   @ManyToOne
-  @JoinColumn(name = "fornecedor_id")
-  private Fornecedor fornecedor;
-  @NotNull
+  @JoinColumn(name = "entrada_produto_id")
+  private EntradaProduto entradaProduto;
   @ManyToOne
   @JoinColumn(name = "produto_id")
   private Produto produto;
-  @NotNull
-  private BigDecimal preco;
+  @ManyToOne
+  @JoinColumn(name = "venda_id")
+  private Venda venda;
 
 }

@@ -29,7 +29,7 @@ public class ClienteController {
 
   @PostMapping
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid Cliente cliente,
+    public ResponseEntity<Object> cadastrar(@RequestBody @Valid Cliente cliente,
             UriComponentsBuilder uriBuilder) {
         Cliente clienteLocal = repository.save(cliente);
         var uri = uriBuilder.path("/clientes/{id}").buildAndExpand(clienteLocal.getId()).toUri();
@@ -50,7 +50,7 @@ public class ClienteController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity excluir(@PathVariable Long id) {
+    public ResponseEntity<Object> excluir(@PathVariable Long id) {
         var cliente = repository.getReferenceById(id);
         repository.delete(cliente);
         return ResponseEntity.noContent().build();

@@ -30,7 +30,7 @@ public class FabricanteController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid Fabricante fabricante,
+    public ResponseEntity<Object> cadastrar(@RequestBody @Valid Fabricante fabricante,
             UriComponentsBuilder uriBuilder) {
         Fabricante fabricanteLocal = repository.save(fabricante);
         var uri = uriBuilder.path("/fabricantes/{id}").buildAndExpand(fabricanteLocal.getId()).toUri();
@@ -51,7 +51,7 @@ public class FabricanteController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity excluir(@PathVariable Long id) {
+    public ResponseEntity<Object> excluir(@PathVariable Long id) {
         var fabricante = repository.getReferenceById(id);
         repository.delete(fabricante);
         return ResponseEntity.noContent().build();

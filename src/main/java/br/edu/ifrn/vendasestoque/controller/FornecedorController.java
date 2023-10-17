@@ -29,7 +29,7 @@ public class FornecedorController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid Fornecedor fornecedor,
+    public ResponseEntity<Object> cadastrar(@RequestBody @Valid Fornecedor fornecedor,
             UriComponentsBuilder uriBuilder) {
         Fornecedor fornecedorLocal = repository.save(fornecedor);
         var uri = uriBuilder.path("/fornecedores/{id}").buildAndExpand(fornecedorLocal.getId()).toUri();
@@ -50,7 +50,7 @@ public class FornecedorController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity excluir(@PathVariable Long id) {
+    public ResponseEntity<Object> excluir(@PathVariable Long id) {
         var fornecedor = repository.getReferenceById(id);
         repository.delete(fornecedor);
         return ResponseEntity.noContent().build();

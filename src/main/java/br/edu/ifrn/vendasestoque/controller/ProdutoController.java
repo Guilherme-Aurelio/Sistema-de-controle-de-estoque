@@ -28,7 +28,7 @@ public class ProdutoController {
 
   @PostMapping
   @Transactional
-  public ResponseEntity cadastrar(@RequestBody @Valid ProdutoRequestDTO produtoDTO,
+  public ResponseEntity<Object> cadastrar(@RequestBody @Valid ProdutoRequestDTO produtoDTO,
       UriComponentsBuilder uriBuilder) {
     Produto produto = repository.save(new Produto(produtoDTO));
     var uri = uriBuilder.path("/produtos/{id}").buildAndExpand(produto.getId()).toUri();
@@ -36,7 +36,7 @@ public class ProdutoController {
   }
 
   @GetMapping
-  public ResponseEntity listar(Pageable paginacao) {
+  public ResponseEntity<Object> listar(Pageable paginacao) {
     var page = repository.findAllByAtivoTrue(paginacao).stream().map(ProdutoResponseDTO::new);
     return ResponseEntity.ok(page);
   }
@@ -49,7 +49,7 @@ public class ProdutoController {
 
   @DeleteMapping("/{id}")
   @Transactional
-  public ResponseEntity excluir(@PathVariable Long id) {
+  public ResponseEntity<Object> excluir(@PathVariable Long id) {
     var produto = repository.getReferenceById(id);
     produto.setAtivo(false);
     return ResponseEntity.noContent().build();

@@ -28,7 +28,7 @@ public class EntradaProdutoController {
 
   @PostMapping
   @Transactional
-  public ResponseEntity cadastrar(@RequestBody @Valid EntradaProduto entradaProduto,
+  public ResponseEntity<Object> cadastrar(@RequestBody @Valid EntradaProduto entradaProduto,
       UriComponentsBuilder uriBuilder) {
     EntradaProduto entradaProdutoLocal = repository.save(entradaProduto);
     var uri = uriBuilder.path("/entradaprodutos/{id}").buildAndExpand(entradaProdutoLocal.getId()).toUri();
@@ -50,7 +50,7 @@ public class EntradaProdutoController {
 
   @DeleteMapping("/{id}")
   @Transactional
-  public ResponseEntity excluir(@PathVariable Long id) {
+  public ResponseEntity<Object> excluir(@PathVariable Long id) {
     var entradaProduto = repository.getReferenceById(id);
     repository.delete(entradaProduto);
     return ResponseEntity.noContent().build();
