@@ -16,55 +16,57 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.edu.ifrn.vendasestoque.domain.categoria.Categoria;
-import br.edu.ifrn.vendasestoque.repository.CategoriaRepository;
+import br.edu.ifrn.vendasestoque.domain.cliente.Cliente;
+import br.edu.ifrn.vendasestoque.repository.ClienteRepository;
 import jakarta.validation.Valid;
-import lombok.extern.log4j.Log4j2;
 
 @RestController
-@RequestMapping("categorias")
-public class CategoriaController {
+@RequestMapping("clientes")
+public class ClienteController {
 
-    @Autowired
-    private CategoriaRepository repository;
+  @Autowired
+  private ClienteRepository repository;
 
-    @PostMapping
+  @PostMapping
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid Categoria categoria,
+    public ResponseEntity cadastrar(@RequestBody @Valid Cliente cliente,
             UriComponentsBuilder uriBuilder) {
-        Categoria categoriaLocal = repository.save(categoria);
-        var uri = uriBuilder.path("/categorias/{id}").buildAndExpand(categoriaLocal.getId()).toUri();
+        Cliente clienteLocal = repository.save(cliente);
+        var uri = uriBuilder.path("/clientes/{id}").buildAndExpand(clienteLocal.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> detalhar(@PathVariable Long id) {
-        var categoria = repository.getReferenceById(id);
-        return ResponseEntity.ok(categoria);
+    public ResponseEntity<Cliente> detalhar(@PathVariable Long id) {
+        Cliente cliente = repository.getReferenceById(id);
+        return ResponseEntity.ok(cliente);
     }
 
     @GetMapping
-    public ResponseEntity<Page<Categoria>> listar(@PageableDefault(size = 4, sort = { "nome" }) Pageable paginacao) {
-        var categorias = repository.findAll(paginacao);
-        return ResponseEntity.ok(categorias);
+    public ResponseEntity<Page<Cliente>> listar(@PageableDefault(size = 30, sort = { "nome" }) Pageable paginacao) {
+        var clientes = repository.findAll(paginacao);
+        return ResponseEntity.ok(clientes);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity excluir(@PathVariable Long id) {
-        var categoria = repository.getReferenceById(id);
-        repository.delete(categoria);
+        var cliente = repository.getReferenceById(id);
+        repository.delete(cliente);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping
     @Transactional
-    public ResponseEntity<Categoria> atualizar(@RequestBody @Valid Categoria categoria) {
-        Categoria categoriaLocal = repository.findById(categoria.getId()).get();
+    public ResponseEntity<Cliente> atualizar(@RequestBody @Valid Cliente cliente) {
+        Cliente clienteLocal = repository.findById(
+                cliente.getId()).get();
 
-        categoriaLocal.setNome(categoria.getNome());
+        clienteLocal.setNome(cliente.getNome());
 
-        return ResponseEntity.ok(categoriaLocal);
+        return ResponseEntity.ok(clienteLocal);
     }
 
+
+  
 }

@@ -29,30 +29,28 @@ public class FornecedorController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid Fornecedor fornecedor, 
-                                            UriComponentsBuilder uriBuilder){
+    public ResponseEntity cadastrar(@RequestBody @Valid Fornecedor fornecedor,
+            UriComponentsBuilder uriBuilder) {
         Fornecedor fornecedorLocal = repository.save(fornecedor);
-        var uri = uriBuilder.path("/fornecedor/{id}").
-                  buildAndExpand(fornecedorLocal.getId()).toUri();
+        var uri = uriBuilder.path("/fornecedores/{id}").buildAndExpand(fornecedorLocal.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Fornecedor> detalhar(@PathVariable Long id){
-        Fornecedor fornecedor = repository.getReferenceById(id);            
+    public ResponseEntity<Fornecedor> detalhar(@PathVariable Long id) {
+        Fornecedor fornecedor = repository.getReferenceById(id);
         return ResponseEntity.ok(fornecedor);
     }
 
     @GetMapping
-    public ResponseEntity<Page<Fornecedor>> listar(@PageableDefault(size=30, 
-                                        sort = {"nome"}) Pageable paginacao){
+    public ResponseEntity<Page<Fornecedor>> listar(@PageableDefault(size = 30, sort = { "nome" }) Pageable paginacao) {
         var fornecedores = repository.findAll(paginacao);
         return ResponseEntity.ok(fornecedores);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity excluir(@PathVariable Long id){
+    public ResponseEntity excluir(@PathVariable Long id) {
         var fornecedor = repository.getReferenceById(id);
         repository.delete(fornecedor);
         return ResponseEntity.noContent().build();
@@ -60,14 +58,13 @@ public class FornecedorController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity<Fornecedor> atualizar(@RequestBody @Valid 
-    Fornecedor fornecedor){
+    public ResponseEntity<Fornecedor> atualizar(@RequestBody @Valid Fornecedor fornecedor) {
         Fornecedor fornecedorLocal = repository.findById(
-            fornecedor.getId()).get();
- 
+                fornecedor.getId()).get();
+
         fornecedorLocal.setNome(fornecedor.getNome());
 
         return ResponseEntity.ok(fornecedorLocal);
     }
-    
+
 }

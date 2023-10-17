@@ -18,44 +18,40 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.edu.ifrn.vendasestoque.domain.fabricante.Fabricante;
 import br.edu.ifrn.vendasestoque.repository.FabricanteRepository;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 
 @RestController
 @RequestMapping("fabricantes")
-@Log4j2
 public class FabricanteController {
-    
+
     @Autowired
     private FabricanteRepository repository;
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid Fabricante fabricante, 
-                                            UriComponentsBuilder uriBuilder){
+    public ResponseEntity cadastrar(@RequestBody @Valid Fabricante fabricante,
+            UriComponentsBuilder uriBuilder) {
         Fabricante fabricanteLocal = repository.save(fabricante);
-        var uri = uriBuilder.path("/fabricantes/{id}").
-                  buildAndExpand(fabricanteLocal.getId()).toUri();
+        var uri = uriBuilder.path("/fabricantes/{id}").buildAndExpand(fabricanteLocal.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Fabricante> detalhar(@PathVariable Long id){
-        Fabricante fabricante = repository.getReferenceById(id);            
+    public ResponseEntity<Fabricante> detalhar(@PathVariable Long id) {
+        Fabricante fabricante = repository.getReferenceById(id);
         return ResponseEntity.ok(fabricante);
     }
 
     @GetMapping
-    public ResponseEntity<Page<Fabricante>> listar(@PageableDefault(size=30, 
-                                        sort = {"nome"}) Pageable paginacao){
+    public ResponseEntity<Page<Fabricante>> listar(@PageableDefault(size = 30, sort = { "nome" }) Pageable paginacao) {
         var fabricantes = repository.findAll(paginacao);
         return ResponseEntity.ok(fabricantes);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity excluir(@PathVariable Long id){
+    public ResponseEntity excluir(@PathVariable Long id) {
         var fabricante = repository.getReferenceById(id);
         repository.delete(fabricante);
         return ResponseEntity.noContent().build();
@@ -63,11 +59,10 @@ public class FabricanteController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity<Fabricante> atualizar(@RequestBody @Valid 
-    Fabricante fabricante){
+    public ResponseEntity<Fabricante> atualizar(@RequestBody @Valid Fabricante fabricante) {
         Fabricante fabricanteLocal = repository.findById(
-            fabricante.getId()).get();
- 
+                fabricante.getId()).get();
+
         fabricanteLocal.setNome(fabricante.getNome());
 
         return ResponseEntity.ok(fabricanteLocal);
