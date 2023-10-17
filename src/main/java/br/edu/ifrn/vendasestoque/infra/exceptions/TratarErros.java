@@ -12,12 +12,12 @@ import jakarta.persistence.EntityNotFoundException;
 public class TratarErros {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity tratarErro404(EntityNotFoundException erro){
+    public ResponseEntity<Object> tratarErro404(EntityNotFoundException erro){
         return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity tratarErro400(MethodArgumentNotValidException ex){
+    public ResponseEntity<Object> tratarErro400(MethodArgumentNotValidException ex){
         var erros = ex.getFieldErrors();
         return ResponseEntity.badRequest().body(erros.stream().map(ErroAtributo::new));
     }
