@@ -5,6 +5,6 @@ create table movimentacao_estoque (
     entrada_produto_id int,
     venda_id int,
     FOREIGN KEY (produto_id) REFERENCES produto(id),
-    FOREIGN KEY (entrada_produto_id) REFERENCES entrada_produto(id),
-    FOREIGN KEY (venda_id) REFERENCES venda(id)
+    FOREIGN KEY (entrada_produto_id) REFERENCES entrada_produto(id)  ON DELETE CASCADE ON UPDATE NO ACTION,
+    FOREIGN KEY (venda_id) REFERENCES venda(id)  ON DELETE CASCADE ON UPDATE NO ACTION
 );

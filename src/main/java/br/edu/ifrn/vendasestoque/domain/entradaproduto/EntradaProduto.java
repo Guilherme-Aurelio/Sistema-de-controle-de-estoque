@@ -38,7 +38,7 @@ public class EntradaProduto {
   private LocalDateTime dataHora;
   @NotNull
   @ManyToOne
-  @JoinColumn(name = "fornecedor_id")
+  @JoinColumn(name = "fornecedor_id") //Chave estrangeira
   private Fornecedor fornecedor;
   @NotNull
   @ManyToOne

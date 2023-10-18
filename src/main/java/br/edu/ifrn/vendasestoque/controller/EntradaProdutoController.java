@@ -17,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.edu.ifrn.vendasestoque.domain.entradaproduto.EntradaProduto;
 import br.edu.ifrn.vendasestoque.repository.EntradaProdutoRepository;
+import br.edu.ifrn.vendasestoque.service.MovimentacaoEstoqueService;
 import jakarta.validation.Valid;
 
 @RestController
@@ -26,11 +27,15 @@ public class EntradaProdutoController {
   @Autowired
   private EntradaProdutoRepository repository;
 
+  @Autowired
+  private MovimentacaoEstoqueService service;
+
   @PostMapping
   @Transactional
   public ResponseEntity<Object> cadastrar(@RequestBody @Valid EntradaProduto entradaProduto,
       UriComponentsBuilder uriBuilder) {
     EntradaProduto entradaProdutoLocal = repository.save(entradaProduto);
+    service.inserirEstoque(entradaProdutoLocal);
     var uri = uriBuilder.path("/entradaprodutos/{id}").buildAndExpand(entradaProdutoLocal.getId()).toUri();
     return ResponseEntity.created(uri).build();
   }
