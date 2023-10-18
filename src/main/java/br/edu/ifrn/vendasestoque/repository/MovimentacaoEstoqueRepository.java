@@ -9,5 +9,8 @@ public interface MovimentacaoEstoqueRepository extends JpaRepository<Movimentaca
 
     @Query(value = "insert into movimentacao_estoque (quantidade, produto_id, entrada_produto_id) values (?1, ?2, ?3)", nativeQuery = true)
     void inserirEstoque(int quantidade, Long produtoId, Long entradaProdutoId);
+
+    @Query(value = "insert into movimentacao_estoque (quantidade, produto_id, venda_id) values (?1, ?2, ?3)", nativeQuery = true)
+    void reduzirEstoque(int quantidade, Long produtoId, Long vendaId);
   
 }

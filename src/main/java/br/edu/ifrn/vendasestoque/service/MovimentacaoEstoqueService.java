@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.edu.ifrn.vendasestoque.domain.entradaproduto.EntradaProduto;
+import br.edu.ifrn.vendasestoque.domain.itemvenda.ItemVenda;
+import br.edu.ifrn.vendasestoque.domain.venda.Venda;
 import br.edu.ifrn.vendasestoque.repository.MovimentacaoEstoqueRepository;
 
 @Service
@@ -18,6 +20,23 @@ public class MovimentacaoEstoqueService {
         repository.inserirEstoque(entradaProduto.getQuantidade(), 
                                   entradaProduto.getProduto().getId(), 
                                   entradaProduto.getId());
+    }
+
+    @Transactional
+    void reduzirEstoque(Venda venda){
+        /*
+        for (int i=0;i<venda.getItensVendas().size();i++){
+            venda.getItensVendas().get(i);
+        }
+        for (ItemVenda itemVenda : venda.getItensVendas()){
+
+        }
+        */
+        venda.getItensVendas().forEach(itemVenda -> {
+            repository.reduzirEstoque(itemVenda.getQuantidade()*-1, itemVenda.getProduto().getId(), 
+                                    venda.getId());
+        });
+        
     }
     
 }
