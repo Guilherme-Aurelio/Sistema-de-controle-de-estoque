@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("categorias")
+@PreAuthorize("hasAuthority('ROLE_USER','ROLE_ADMIN')")
 public class CategoriaController {
 
     @Autowired
