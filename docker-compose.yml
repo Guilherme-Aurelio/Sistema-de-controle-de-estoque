@@ -1,0 +1,11 @@
+services:
+  rabbitmq:
+    image: rabbit:3.12-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    tty: true
+    restart: unless-stopped
+
+      
