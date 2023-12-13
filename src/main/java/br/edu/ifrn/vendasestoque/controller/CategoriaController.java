@@ -24,7 +24,6 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("categorias")
-@PreAuthorize("hasAuthority('ROLE_USER','ROLE_ADMIN')")
 public class CategoriaController {
 
     @Autowired
@@ -32,6 +31,8 @@ public class CategoriaController {
 
     @PostMapping
     @Transactional
+    //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     public ResponseEntity<Object> cadastrar(@RequestBody @Valid Categoria categoria,
             UriComponentsBuilder uriBuilder) {
         Categoria categoriaLocal = repository.save(categoria);

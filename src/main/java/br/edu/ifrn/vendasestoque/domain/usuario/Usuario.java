@@ -48,9 +48,14 @@ public class Usuario implements UserDetails{
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     //return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-    return this.permissoes.stream().map(
+    /*return this.permissoes.stream().map(
+      permissao -> new SimpleGrantedAuthority(permissao.getNome())).
+      collect(Collectors.toList()); */
+    Collection<? extends GrantedAuthority> authorities = this.permissoes.stream().map(
       permissao -> new SimpleGrantedAuthority(permissao.getNome())).
       collect(Collectors.toList());
+      System.out.println(this.login + "  " + " " + authorities.toString());
+      return authorities;
   }
 
   @Override
