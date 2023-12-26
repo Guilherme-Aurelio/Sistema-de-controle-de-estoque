@@ -31,11 +31,11 @@ public class MovimentacaoEstoqueService {
 
         }
         */
-        venda.getItensVendas().forEach(itemVenda -> {
-            repository.reduzirEstoque(itemVenda.getQuantidade()*-1, itemVenda.getProduto().getId(), 
-                                    venda.getId());
-        });
-        
+        if (venda.getItensVendas() != null) {
+            venda.getItensVendas().forEach(itemVenda -> {
+                repository.reduzirEstoque(itemVenda.getQuantidade() * -1, itemVenda.getProduto().getId(), venda.getId());
+            });
+        }
     }
     
 }

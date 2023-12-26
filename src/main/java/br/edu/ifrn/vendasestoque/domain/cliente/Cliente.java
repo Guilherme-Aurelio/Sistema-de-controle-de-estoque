@@ -27,6 +27,9 @@ public class Cliente {
     private Long id;
     @NotBlank(message = "Nome do cliente é obrigatório")
     private String nome;
-    @Embedded
-    private Endereco endereco;
+    private String rua;
+    private Integer numero;
+    private String bairro;
+    private String cep;
+
 }

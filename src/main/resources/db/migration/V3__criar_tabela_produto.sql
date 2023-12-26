@@ -4,8 +4,8 @@ create table produto (
     descricao varchar(300) not null,
     quantidade_estoque int not null,
     preco decimal not null,
-    fabricante_id int not null,
-    categoria_id int not null,
+    fabricante_id int ,
+    categoria_id int ,
     FOREIGN KEY (categoria_id) REFERENCES categoria(id),
     FOREIGN KEY (fabricante_id) REFERENCES fabricante(id)
 );

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("entradaprodutos")
+@CrossOrigin(origins = "*")
 public class EntradaProdutoController {
 
   @Autowired
@@ -48,7 +50,7 @@ public class EntradaProdutoController {
 
   @GetMapping
   public ResponseEntity<Page<EntradaProduto>> listar(
-      @PageableDefault(size = 30, sort = { "nome" }) Pageable paginacao) {
+      @PageableDefault(size = 30, sort = { "id" }) Pageable paginacao) {
     var entradaProdutos = repository.findAll(paginacao);
     return ResponseEntity.ok(entradaProdutos);
   }

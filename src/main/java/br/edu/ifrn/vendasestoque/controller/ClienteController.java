@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("clientes")
+@CrossOrigin(origins = "*")
 public class ClienteController {
 
   @Autowired
@@ -59,13 +61,21 @@ public class ClienteController {
     @PutMapping
     @Transactional
     public ResponseEntity<Cliente> atualizar(@RequestBody @Valid Cliente cliente) {
-        Cliente clienteLocal = repository.findById(
-                cliente.getId()).get();
+    Cliente clienteLocal = repository.findById(cliente.getId()).orElse(null);
 
-        clienteLocal.setNome(cliente.getNome());
+        if (clienteLocal != null) {
+            clienteLocal.setNome(cliente.getNome());
+            clienteLocal.setRua(cliente.getRua());
+            clienteLocal.setNumero(cliente.getNumero());
+            clienteLocal.setBairro(cliente.getBairro());
+            clienteLocal.setCep(cliente.getCep());
+
+        // Salvar no repositório após todas as alterações
+            clienteLocal = repository.save(clienteLocal);
+    }
 
         return ResponseEntity.ok(clienteLocal);
-    }
+}
 
 
   

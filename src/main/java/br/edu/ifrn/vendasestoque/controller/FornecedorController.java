@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("fornecedores")
+@CrossOrigin(origins = "*")
 public class FornecedorController {
 
     @Autowired
@@ -59,11 +61,18 @@ public class FornecedorController {
     @PutMapping
     @Transactional
     public ResponseEntity<Fornecedor> atualizar(@RequestBody @Valid Fornecedor fornecedor) {
-        Fornecedor fornecedorLocal = repository.findById(
-                fornecedor.getId()).get();
+        Fornecedor fornecedorLocal = repository.findById(fornecedor.getId()).get();
 
-        fornecedorLocal.setNome(fornecedor.getNome());
+        if (fornecedorLocal != null) {
+            fornecedorLocal.setNome(fornecedor.getNome());
+            fornecedorLocal.setRua(fornecedor.getRua());
+            fornecedorLocal.setNumero(fornecedor.getNumero());
+            fornecedorLocal.setBairro(fornecedor.getBairro());
+            fornecedorLocal.setCep(fornecedor.getCep());
 
+           fornecedorLocal = repository.save(fornecedorLocal);
+    }
+    
         return ResponseEntity.ok(fornecedorLocal);
     }
 
