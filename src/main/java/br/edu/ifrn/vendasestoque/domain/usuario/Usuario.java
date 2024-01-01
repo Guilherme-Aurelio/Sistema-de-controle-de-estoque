@@ -1,6 +1,7 @@
 package br.edu.ifrn.vendasestoque.domain.usuario;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -47,10 +48,9 @@ public class Usuario implements UserDetails{
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    //return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-    /*return this.permissoes.stream().map(
-      permissao -> new SimpleGrantedAuthority(permissao.getNome())).
-      collect(Collectors.toList()); */
+    if (this.permissoes == null) {
+      return Collections.emptyList(); // Ou retorne um conjunto de permissões padrão
+  }
     Collection<? extends GrantedAuthority> authorities = this.permissoes.stream().map(
       permissao -> new SimpleGrantedAuthority(permissao.getNome())).
       collect(Collectors.toList());

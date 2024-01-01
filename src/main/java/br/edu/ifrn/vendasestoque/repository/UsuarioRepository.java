@@ -7,6 +7,6 @@ import br.edu.ifrn.vendasestoque.domain.usuario.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 
-  UserDetails findByLogin(String username);
+  Usuario findByLogin(String username);
   
 }

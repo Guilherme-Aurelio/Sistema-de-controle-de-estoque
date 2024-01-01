@@ -12,6 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.edu.ifrn.vendasestoque.domain.venda.Venda;
 import br.edu.ifrn.vendasestoque.repository.VendaRepository;
 import br.edu.ifrn.vendasestoque.service.MovimentacaoEstoqueService;
+import br.edu.ifrn.vendasestoque.service.RabbitMQSender;
 import jakarta.validation.Valid;
 
 @RestController
@@ -25,14 +26,20 @@ public class VendaController {
     @Autowired
     private MovimentacaoEstoqueService service;
 
+    @Autowired
+    private RabbitMQSender rabbitMQSender;
     //@ResponseEntity 
     //@ResponseStatus(code=HttpStatus.CREATED)
     @PostMapping
     @Transactional
-    public ResponseEntity<Object>  cadastrar(@RequestBody @Valid Venda venda,
+    public ResponseEntity<Object> cadastrar(@RequestBody @Valid Venda venda,
             UriComponentsBuilder uriBuilder) {
         Venda vendaLocal = repository.save(venda);
         service.reduzirEstoque(vendaLocal);
+
+        // Envia mensagem para o RabbitMQ após a venda ser cadastrada com sucesso
+        rabbitMQSender.enviarMensagem("Nova venda cadastrada com sucesso!");
+
         var uri = uriBuilder.path("/vendas/{id}").buildAndExpand(venda.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
